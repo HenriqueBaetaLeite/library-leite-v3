@@ -12,6 +12,7 @@ const CardBook = ({ book }) => {
     <Paper variant="elevation" elevation={3}>
       <Typography variant="h5">{book.title}</Typography>
       <p>{book.author}</p>
+      <p>{book.category}</p>
       <img
         onMouseEnter={hoverCard}
         // onMouseLeave={hoverCard}
