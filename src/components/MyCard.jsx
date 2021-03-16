@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Rating } from '@material-ui/lab';
 
@@ -30,10 +30,12 @@ const useStyles = makeStyles({
     backgroundColor: 'red',
   },
   card: {
-    backgroundImage: 'linear-gradient(37deg, #dd4, #fa45)',
+    // background: 'lightBlue',
+    backgroundImage: 'linear-gradient(49deg, white, gray)',
   },
   star: {
     textAlign: 'center',
+    marginBottom: '10px',
   },
   cardButtons: {
     display: 'flex',
@@ -43,10 +45,24 @@ const useStyles = makeStyles({
 
 const MyCard = (props) => {
   const classes = useStyles();
+  const [userRating, setUserRating] = useState(0);
 
-  const [starValue, setStartValue] = useState(null);
+  const [starValue, setStarValue] = useState(null);
+  const { title, author, category, imgSrc, rating, readBy, user } = props;
 
-  const { title, author, category, imgSrc } = props;
+  useEffect(() => {
+    userStarRating();
+  }, []);
+
+  console.log('my card', rating, readBy, user, userRating);
+
+  const userStarRating = () => {
+    if (user?.includes('henrique')) {
+      return setUserRating(rating.henrique);
+    } else {
+      return setUserRating(rating.fernando);
+    }
+  };
 
   return (
     <Card className={classes.card}>
@@ -56,14 +72,23 @@ const MyCard = (props) => {
         <Typography variant="body1" component="p">
           {category}
         </Typography>
+        {/* {readBy[0] === ""
+          ? null : readBy.map((reader) => (
+              <Typography variant="body1" component="p">
+                Lido por: {reader}
+              </Typography>
+            ))
+          } */}
       </CardContent>
-      <Divider variant="middle" />
+
       <Box className={classes.star}>
         <Rating
+          precision={0.5}
           name="simple-controlled"
-          value={starValue}
+          value={userRating}
           onChange={(_event, newValue) => {
-            setStartValue(newValue);
+            console.log(newValue);
+            setStarValue(newValue);
           }}
         />
       </Box>
@@ -72,7 +97,7 @@ const MyCard = (props) => {
         <Button size="small" variant="contained" color="primary">
           Editar
         </Button>
-        <IconButton aria-label="delete" color="secondary">
+        <IconButton aria-label="delete" color="red">
           <Delete />
         </IconButton>
       </CardActions>

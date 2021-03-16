@@ -13,7 +13,7 @@ const Transition = () => {
   useEffect(() => {
     getAllBooks().then((resp) => getMyBooks(resp));
     auth.onAuthStateChanged((user) => {
-      console.log('tem user?', user);
+      console.log('tem user? transition', user);
       if (!user) return history.push('/login');
     });
   });
