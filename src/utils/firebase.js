@@ -22,6 +22,11 @@ export const addUser = async (user) => {
   return isUser;
 };
 
+export const addBook = async (bookData) => {
+  const book = await db.collection('books').add(bookData);
+  return book;
+};
+
 export const getAllBooks = async () => {
   const allBooks = [];
   const books = db.collection('books');

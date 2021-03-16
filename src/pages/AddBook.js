@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Typography,
-  TextField,
-  FormControl,
-  Card,
-  Button,
-  Box,
-} from '@material-ui/core';
+import { Container, Typography, TextField, Card, Button, Box } from '@material-ui/core';
 import TheHeader from '../components/TheHeader';
 
 import { makeStyles } from '@material-ui/core/styles';
+
+import { addBook } from '../utils/firebase';
 
 const useStyles = makeStyles({
   card: {
@@ -37,8 +31,24 @@ const AddBook = () => {
   const [category, setCategory] = useState('');
   const [imgURL, setImgURL] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     console.log('clicked');
+    const result = await addBook({
+      title,
+      author,
+      category,
+      imgURL,
+      rating: { henrique: 0, fernando: 0 },
+      readBy: [''],
+    });
+
+    if (result) {
+      console.log('yes!!', result);
+      setTitle('');
+      setAuthor('');
+      setCategory('');
+      setImgURL('');
+    }
   };
 
   const handleChange = (event) => {
@@ -69,7 +79,7 @@ const AddBook = () => {
         <Box className={classes.inputBox}>
           <TextField
             name="title"
-            label="título"
+            label="Título"
             variant="outlined"
             margin="normal"
             fullWidth
@@ -81,7 +91,7 @@ const AddBook = () => {
 
           <TextField
             name="author"
-            label="autor"
+            label="Autor"
             variant="outlined"
             margin="normal"
             fullWidth
@@ -94,7 +104,7 @@ const AddBook = () => {
           </Typography>
           <TextField
             name="category"
-            label="categoria"
+            label="Categoria"
             variant="outlined"
             margin="normal"
             fullWidth
@@ -104,7 +114,7 @@ const AddBook = () => {
           />
           <TextField
             name="imgURL"
-            label="imagem (URL)"
+            label="Imagem da Capa (URL)"
             variant="outlined"
             margin="normal"
             fullWidth
