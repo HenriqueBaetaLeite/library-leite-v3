@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import BooksContext from './context/ContextBooks';
 
 // color:
 // #faa613 Chrome yellow
@@ -44,7 +45,7 @@ const theme = createMuiTheme({
     primary: {
       light: '#8ACB88',
       main: '#f7b32b',
-      dark: '#306B34',
+      dark: '#faa613',
     },
     secondary: {
       light: '#3A86FF',
@@ -58,7 +59,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <App />
+        <BooksContext>
+          <App />
+        </BooksContext>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,

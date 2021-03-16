@@ -1,36 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Typography, Grid } from '@material-ui/core';
 
-import { getAllBooks, auth } from '../utils/firebase';
-import CardBook from '../components/CardBook';
+import TheHeader from '../components/TheHeader';
+
+import { auth } from '../utils/firebase';
+
+import MyCard from '../components/MyCard';
+
+import BooksBL from '../context';
 
 const Books = () => {
   const history = useHistory();
+  const { books } = useContext(BooksBL);
   const [allBooks, setAllBooks] = useState([]);
 
   useEffect(() => {
-    // const isUser = auth((user) => {
-    //   console.log(user);
-    //   if (user) {
-    //   } else {
-    //     history.push('/login');
-    //   }
-    // });
-
-    getAllBooks().then((resp) => setAllBooks(resp));
+    setAllBooks(books);
+    auth.onAuthStateChanged((user) => {
+      console.log('tem user?', user);
+      if (!user) return history.push('/login');
+    });
   }, []);
-
-  console.log(allBooks);
 
   return (
     <Container>
+      <TheHeader />
       <Typography variant="h3">Coletânia de Livros</Typography>
-      <Grid container spacing={3}>
+      <Grid style={{ marginTop: '30px' }} container spacing={3}>
         {allBooks.length > 0 &&
           allBooks.map((book) => (
-            <Grid item xs={6} key={book.title}>
-              <CardBook book={book} />
+            <Grid item xs={12} sm={6} md={4} key={book.title}>
+              <MyCard
+                title={book.title}
+                imgSrc={book.imgURL}
+                author={book.author}
+                category={book.category}
+              />
             </Grid>
           ))}
       </Grid>

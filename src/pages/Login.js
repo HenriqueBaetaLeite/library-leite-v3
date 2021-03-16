@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 
 import Copyright from '../components/Copyright';
 
+import { motion } from 'framer-motion';
+
 import {
   Container,
   TextField,
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     marginTop: '80px',
+    marginBottom: '20px',
   },
   inputs: {
     background: 'white',
@@ -56,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: 20,
+  },
+  typo: {
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -86,7 +93,7 @@ const Login = () => {
       const emailExists = await auth.signInWithEmailAndPassword(email, password);
       localStorage.setItem('userLoggedInBooks', emailExists.user.email);
       setTimeout(() => {
-        history.push('/books');
+        history.push('/transition');
       }, 3000);
     } catch (err) {
       setErrorLogin(true);
@@ -112,68 +119,71 @@ const Login = () => {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Container className={classes.container} maxWidth="xs">
-        <Box className={classes.title}>
-          <Typography variant="h5">Livros Baêta Leite</Typography>
-          <Typography variant="h4">Login</Typography>
-        </Box>
-        {isLoading && (
-          <div className="text-center m-2">
-            <CircularProgress />
-          </div>
-        )}
-        {errorLogin && (
-          <Collapse in={errorLogin}>
-            <LoginAlert msgError={loginErrorMsg} closeAlert={setErrorLogin} />
-          </Collapse>
-        )}
-        <Box className={classes.login}>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              autoComplete="off"
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="email"
-              label="E-mail"
-              name="email"
-              type="email"
-              autoFocus
-              onChange={handleChange}
-              error={wrongEmailInput}
-              helperText={wrongEmailInput && 'o e-mail está no formato inválido'}
-            />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 5 }}>
+        <Container className={classes.container} maxWidth="xs">
+          <Box className={classes.title}>
+            <Typography className={classes.typo} variant="h5">
+              Login
+            </Typography>
+          </Box>
+          {isLoading && (
+            <div className="text-center m-2">
+              <CircularProgress />
+            </div>
+          )}
+          {errorLogin && (
+            <Collapse in={errorLogin}>
+              <LoginAlert msgError={loginErrorMsg} closeAlert={setErrorLogin} />
+            </Collapse>
+          )}
+          <Box className={classes.login}>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                autoComplete="off"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="email"
+                label="E-mail"
+                name="email"
+                type="email"
+                autoFocus
+                onChange={handleChange}
+                error={wrongEmailInput}
+                helperText={wrongEmailInput && 'o e-mail está no formato inválido'}
+              />
 
-            <TextField
-              autoComplete="off"
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              name="password"
-              label="Senha"
-              type="password"
-              id="password"
-              onChange={handleChange}
-              color="primary"
-              error={wrongPasswordInput}
-              helperText={wrongPasswordInput && 'a senha deve ser maior do que 6 caracteres'}
-            />
+              <TextField
+                autoComplete="off"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Senha"
+                type="password"
+                id="password"
+                onChange={handleChange}
+                color="primary"
+                error={wrongPasswordInput}
+                helperText={wrongPasswordInput && 'a senha deve ser maior do que 6 caracteres'}
+              />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Entrar
-            </Button>
-          </form>
-        </Box>
-        <Box className={classes.footer}>
-          <Copyright />
-        </Box>
-      </Container>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Entrar
+              </Button>
+            </form>
+          </Box>
+          <Box className={classes.footer}>
+            <Copyright />
+          </Box>
+        </Container>
+      </motion.div>
     </ThemeProvider>
   );
 };
