@@ -2,16 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import { Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import bg1 from '../assets/images/bg1.png';
-import bg2 from '../assets/images/bg2.png';
-import frajola from '../assets/images/frajola.png';
-import marvin from '../assets/images/marvin.png';
+// import bg1 from '../assets/images/bg1.png';
+// import bg2 from '../assets/images/bg2.png';
+// import frajola from '../assets/images/frajola.png';
+// import marvin from '../assets/images/marvin.png';
 
 
 
-const images = [frajola, marvin, bg1, bg2];
+// const images = [frajola, marvin, bg1, bg2];
 
-const randomImage = images[Math.round(Math.random() * 3)];
+// const randomImage = images[Math.round(Math.random() * 3)];
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,7 +36,7 @@ const NotFound = () => {
       <Typography className={classes.typography} variant="h6">
         Página não encontrada...
       </Typography>
-      <img height="300px" alt="notfound" src={randomImage} />
+      {/* <img height="300px" alt="notfound" src={randomImage} /> */}
     </Container>
   );
 };

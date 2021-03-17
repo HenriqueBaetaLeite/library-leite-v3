@@ -93,8 +93,8 @@ const Login = () => {
       const emailExists = await auth.signInWithEmailAndPassword(email, password);
       localStorage.setItem('userLoggedInBooks', emailExists.user.email);
       setTimeout(() => {
-        history.push('/transition');
-      }, 3000);
+        history.push('/books');
+      }, 1800);
     } catch (err) {
       setErrorLogin(true);
       setLoginErrorMsg(err.message);

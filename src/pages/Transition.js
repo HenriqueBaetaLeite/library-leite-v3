@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import BooksBL from '../context';
 
@@ -10,13 +10,13 @@ import { motion } from 'framer-motion';
 const Transition = () => {
   const history = useHistory();
   const { getMyBooks } = useContext(BooksBL);
+
   useEffect(() => {
     getAllBooks().then((resp) => getMyBooks(resp));
     auth.onAuthStateChanged((user) => {
-      console.log('tem user? transition', user);
       if (!user) return history.push('/login');
     });
-  });
+  }, []);
 
   const handleBooks = () => {
     history.push('/books');
@@ -30,7 +30,7 @@ const Transition = () => {
       <motion.div
         style={{ marginTop: 60 }}
         initial={{ y: -900, opacity: 0 }}
-        animate={{ opacity: 1, y: [0, -100, 200, 0] }}
+        animate={{ opacity: 1, y: [0, -100, 0] }}
         transition={{ duration: 3 }}
       >
         <Button

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
+import DeleteBookAlert from './DeleteBookAlert';
 
 import { Rating } from '@material-ui/lab';
 
@@ -45,16 +48,22 @@ const useStyles = makeStyles({
 
 const MyCard = (props) => {
   const classes = useStyles();
+  const history = useHistory();
   const [userRating, setUserRating] = useState(0);
-
   const [starValue, setStarValue] = useState(null);
-  const { title, author, category, imgSrc, rating, readBy, user } = props;
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const { title, author, category, imgSrc, rating, user, id } = props;
 
   useEffect(() => {
     userStarRating();
   }, []);
 
-  console.log('my card', rating, readBy, user, userRating);
+  const changeStarRating = (event) => {
+    console.log('changeStar', event.target.value);
+    setStarValue(event.target.value);
+  };
+
+  // console.log('my card', rating, user, userRating, id);
 
   const userStarRating = () => {
     if (user?.includes('henrique')) {
@@ -64,10 +73,16 @@ const MyCard = (props) => {
     }
   };
 
+  const handleDeleteButton = () => {
+    console.log('meu id é:', id);
+    setOpenDeleteDialog(!openDeleteDialog);
+  };
+
   return (
     <Card className={classes.card}>
       <CardHeader title={title} subheader={author} />
-      <CardMedia style={{ height: '250px' }} image={imgSrc} />
+      <img src={imgSrc} height="250px" />
+      {/* <CardMedia style={{ height: '250px' }} image={imgSrc} /> */}
       <CardContent>
         <Typography variant="body1" component="p">
           {category}
@@ -86,20 +101,25 @@ const MyCard = (props) => {
           precision={0.5}
           name="simple-controlled"
           value={userRating}
-          onChange={(_event, newValue) => {
-            console.log(newValue);
-            setStarValue(newValue);
-          }}
+          onChange={changeStarRating}
         />
       </Box>
       <Divider variant="middle" />
       <CardActions className={classes.cardButtons}>
-        <Button size="small" variant="contained" color="primary">
+        <Button
+          onClick={() => history.push('/books/edit')}
+          size="small"
+          variant="contained"
+          color="primary"
+        >
           Editar
         </Button>
-        <IconButton aria-label="delete" color="red">
+        <IconButton onClick={handleDeleteButton} aria-label="delete" color="red">
           <Delete />
         </IconButton>
+        {openDeleteDialog && (
+          <DeleteBookAlert open={openDeleteDialog} setOpen={setOpenDeleteDialog} id={id} />
+        )}
       </CardActions>
     </Card>
   );

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-
+import { useHistory } from 'react-router-dom';
 import { Container, Typography, TextField, Card, Button, Box } from '@material-ui/core';
 import TheHeader from '../components/TheHeader';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import { addBook } from '../utils/firebase';
-import SuccessAdd from '../components/SuccessAdd';
 
 const useStyles = makeStyles({
   card: {
@@ -25,18 +24,18 @@ const useStyles = makeStyles({
   },
 });
 
-const AddBook = () => {
+const EditBook = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('');
   const [imgURL, setImgURL] = useState('');
 
-  const [successAdd, setSuccessAdd] = useState(false);
-
-  const handleSubmit = async () => {
-    await addBook({
+  const handleSubmit = async (event) => {
+    console.log('clicked');
+    const result = await addBook({
       title,
       author,
       category,
@@ -45,11 +44,14 @@ const AddBook = () => {
       readBy: [''],
     });
 
-    setTitle('');
-    setAuthor('');
-    setCategory('');
-    setImgURL('');
-    setSuccessAdd(!successAdd);
+    if (result) {
+      console.log('yes!!', result);
+      setTitle('');
+      setAuthor('');
+      setCategory('');
+      setImgURL('');
+      history.push('/books');
+    }
   };
 
   const handleChange = (event) => {
@@ -74,11 +76,10 @@ const AddBook = () => {
       <TheHeader />
 
       <Card className={classes.card}>
-        <Typography variant="h5">Adicione um novo livro</Typography>
+        <Typography variant="h5">Edite seu livro</Typography>
 
         <Box className={classes.inputBox}>
           <TextField
-            value={title}
             name="title"
             label="Título"
             variant="outlined"
@@ -91,7 +92,6 @@ const AddBook = () => {
           />
 
           <TextField
-            value={author}
             name="author"
             label="Autor"
             variant="outlined"
@@ -105,7 +105,6 @@ const AddBook = () => {
             Mais de 1 autor? Separe por vírgula.
           </Typography>
           <TextField
-            value={category}
             name="category"
             label="Categoria"
             variant="outlined"
@@ -116,14 +115,11 @@ const AddBook = () => {
             onChange={handleChange}
           />
           <TextField
-            value={imgURL}
             name="imgURL"
             label="Imagem da Capa (URL)"
             variant="outlined"
             margin="normal"
             fullWidth
-            // error
-            // helperText={'errado!'}
             autoComplete="off"
             required
             onChange={handleChange}
@@ -137,11 +133,10 @@ const AddBook = () => {
           >
             Adicionar
           </Button>
-          {successAdd && <SuccessAdd open={successAdd} setOpen={setSuccessAdd} />}
         </Box>
       </Card>
     </Container>
   );
 };
 
-export default AddBook;
+export default EditBook;

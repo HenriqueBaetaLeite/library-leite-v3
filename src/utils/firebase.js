@@ -24,16 +24,25 @@ export const addUser = async (user) => {
 
 export const addBook = async (bookData) => {
   const book = await db.collection('books').add(bookData);
+
   return book;
 };
 
 export const getAllBooks = async () => {
   const allBooks = [];
+  const documents = [];
   const books = db.collection('books');
+
+  books.onSnapshot((snapShot) => {
+    snapShot.docs.forEach((doc) => {
+      documents.push({ id: doc.id, ...doc.data() });
+    });
+  });
+
   const result = await books.get();
 
   result.forEach((book) => {
-    allBooks.push(book.data());
+    allBooks.push({ ...book.data(), id: book.id });
   });
 
   return allBooks;

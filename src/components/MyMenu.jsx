@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import {
   Drawer,
@@ -37,8 +37,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyMenu = (props) => {
-  const { open, handleMenu, history } = props;
+  const { open, handleMenu } = props;
   const classes = useStyles();
+
+  const history = useHistory();
 
   const listItems = [
     { text: 'Meus livros', icon: <MenuBookIcon />, onClick: () => history.push('/books') },
@@ -69,12 +71,8 @@ const MyMenu = (props) => {
           );
         })}
       </List>
-      {/* <MenuItem className={classes.menu} onClick={() => handleMenu()}>
-        Minhas receitas
-      </MenuItem>
-      <MenuItem onClick={() => handleMenu()}>Minhas despesas</MenuItem> */}
     </Drawer>
   );
 };
 
-export default withRouter(MyMenu);
+export default MyMenu;
