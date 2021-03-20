@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -11,6 +9,7 @@ import {
   DialogContentText,
   Button,
   DialogContent,
+  Typography,
 } from '@material-ui/core';
 
 import { db } from '../utils/firebase';
@@ -23,6 +22,9 @@ const useStyles = makeStyles({
     background: 'black',
     fontWeight: 600,
     margin: '5px',
+  },
+  title: {
+    fontWeight: 800,
   },
 });
 
@@ -37,12 +39,12 @@ const DeleteBookAlert = (props) => {
   };
 
   const handleDelete = async () => {
-    await db.collection('books').doc(id).delete();
     setOpenSuccessDelete(true);
     setTimeout(() => {
       setOpen(!open);
-      // setOpenSuccessDelete(false);
-    }, 3000);
+      setOpenSuccessDelete(false);
+      db.collection('books').doc(id).delete();
+    }, 3500);
   };
   return (
     <Dialog
@@ -53,9 +55,13 @@ const DeleteBookAlert = (props) => {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle id="alert-dialog-slide-title">Deletar livro?</DialogTitle>
+      <DialogTitle id="alert-dialog-slide-title">
+        <Typography variant="h5" className={classes.title}>
+          Deletar livro?
+        </Typography>
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
+        <DialogContentText color="textPrimary" id="alert-dialog-slide-description">
           Depois de realizar a exclusão do livro não será possível reverter esta ação.
         </DialogContentText>
       </DialogContent>
