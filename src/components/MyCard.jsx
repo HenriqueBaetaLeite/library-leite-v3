@@ -5,6 +5,8 @@ import DeleteBookAlert from './DeleteBookAlert';
 
 import { Rating } from '@material-ui/lab';
 
+import { db } from '../utils/firebase';
+
 import {
   Card,
   CardHeader,
@@ -50,59 +52,55 @@ const MyCard = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const [userRating, setUserRating] = useState(0);
-  const [starValue, setStarValue] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const { title, author, category, imgSrc, rating, user, id } = props;
 
   useEffect(() => {
     userStarRating();
   }, []);
 
-  const changeStarRating = (event) => {
-    console.log('changeStar', event.target.value);
-    setStarValue(event.target.value);
+  const changeStarRating = async (event) => {
+    const { value, name } = event.target;
+    console.log('changeStar', value, name, currentUser);
+    if (currentUser === 'fernando') {
+      await db
+        .collection('books')
+        .doc(id)
+        .update({ 'rating.fernando': Number(value) });
+    } else {
+      await db
+        .collection('books')
+        .doc(id)
+        .update({ 'rating.henrique': Number(value) });
+    }
   };
-
-  // console.log('my card', rating, user, userRating, id);
 
   const userStarRating = () => {
     if (user?.includes('henrique')) {
+      setCurrentUser('henrique');
       return setUserRating(rating.henrique);
     } else {
+      setCurrentUser('fernando');
       return setUserRating(rating.fernando);
     }
   };
 
-  const handleDeleteButton = () => {
-    console.log('meu id é:', id);
-    setOpenDeleteDialog(!openDeleteDialog);
-  };
+  const handleDeleteButton = () => setOpenDeleteDialog(!openDeleteDialog);
 
   return (
     <Card className={classes.card}>
       <CardHeader title={title} subheader={author} />
-      <img src={imgSrc} height="250px" />
+      <img src={imgSrc} height="250px" alt={`Livro ${title}`} />
       {/* <CardMedia style={{ height: '250px' }} image={imgSrc} /> */}
       <CardContent>
         <Typography variant="body1" component="p">
           {category}
         </Typography>
-        {/* {readBy[0] === ""
-          ? null : readBy.map((reader) => (
-              <Typography variant="body1" component="p">
-                Lido por: {reader}
-              </Typography>
-            ))
-          } */}
       </CardContent>
 
       <Box className={classes.star}>
-        <Rating
-          precision={0.5}
-          name="simple-controlled"
-          value={userRating}
-          onChange={changeStarRating}
-        />
+        <Rating precision={0.5} name={id} value={userRating} onChange={changeStarRating} />
       </Box>
       <Divider variant="middle" />
       <CardActions className={classes.cardButtons}>

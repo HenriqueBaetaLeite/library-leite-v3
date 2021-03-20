@@ -50,6 +50,7 @@ const DeleteBookAlert = (props) => {
       db.collection('books').doc(id).delete();
     }, 3500);
   };
+
   return (
     <Dialog
       open={open}
