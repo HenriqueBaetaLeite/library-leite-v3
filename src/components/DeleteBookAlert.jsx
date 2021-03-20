@@ -10,6 +10,7 @@ import {
   Button,
   DialogContent,
   Typography,
+  Box,
 } from '@material-ui/core';
 
 import { db } from '../utils/firebase';
@@ -17,6 +18,9 @@ import { db } from '../utils/firebase';
 import SuccessDelete from './SuccessDelete';
 
 const useStyles = makeStyles({
+  content: {
+    background: '#cecece',
+  },
   deleteButton: {
     color: 'red',
     background: 'black',
@@ -55,27 +59,29 @@ const DeleteBookAlert = (props) => {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle id="alert-dialog-slide-title">
-        <Typography variant="h5" className={classes.title}>
-          Deletar livro?
-        </Typography>
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText color="textPrimary" id="alert-dialog-slide-description">
-          Depois de realizar a exclusão do livro não será possível reverter esta ação.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained" onClick={handleClose} color="primary">
-          Cancelar
-        </Button>
-        <Button variant="contained" onClick={handleDelete} className={classes.deleteButton}>
-          Deletar
-        </Button>
-        {openSuccessDelete && (
-          <SuccessDelete open={openSuccessDelete} setOpen={setOpenSuccessDelete} />
-        )}
-      </DialogActions>
+      <Box className={classes.content}>
+        <DialogTitle id="alert-dialog-slide-title">
+          <Typography variant="h5" className={classes.title}>
+            Deletar livro?
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText color="textPrimary" id="alert-dialog-slide-description">
+            Depois de realizar a exclusão do livro não será possível reverter esta ação.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={handleDelete} className={classes.deleteButton}>
+            Deletar
+          </Button>
+          {openSuccessDelete && (
+            <SuccessDelete open={openSuccessDelete} setOpen={setOpenSuccessDelete} />
+          )}
+        </DialogActions>
+      </Box>
     </Dialog>
   );
 };
