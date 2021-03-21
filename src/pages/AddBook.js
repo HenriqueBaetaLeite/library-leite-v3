@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
 import { Container, Typography, TextField, Card, Button, Box } from '@material-ui/core';
+
 import TheHeader from '../components/TheHeader';
+import SuccessAdd from '../components/SuccessAdd';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import { addBook } from '../utils/firebase';
-import SuccessAdd from '../components/SuccessAdd';
 
 const useStyles = makeStyles({
   card: {
@@ -32,7 +33,6 @@ const AddBook = () => {
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('');
   const [imgURL, setImgURL] = useState('');
-
   const [successAdd, setSuccessAdd] = useState(false);
 
   const handleSubmit = async () => {
@@ -42,7 +42,6 @@ const AddBook = () => {
       category,
       imgURL,
       rating: { henrique: 0, fernando: 0 },
-      readBy: [''],
     });
 
     setTitle('');
@@ -69,6 +68,7 @@ const AddBook = () => {
         break;
     }
   };
+
   return (
     <Container maxWidth="xs">
       <TheHeader />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Typography, Grid, CircularProgress } from '@material-ui/core';
 
@@ -29,7 +29,7 @@ const Books = () => {
       <Grid style={{ marginTop: '30px' }} container spacing={4}>
         {allBooks.length <= 0 ? (
           <Container component="div" maxWidth="sm">
-            <CircularProgress size="6rem"/>
+            <CircularProgress size="6rem" />
           </Container>
         ) : (
           allBooks.map((book) => (
@@ -40,7 +40,6 @@ const Books = () => {
                 author={book.author}
                 category={book.category}
                 rating={book.rating}
-                // readBy={book.readBy}
                 id={book.id}
                 user={user}
               />

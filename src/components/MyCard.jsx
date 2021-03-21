@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardActions,
   CardContent,
-  CardMedia,
   Typography,
   Button,
   IconButton,
@@ -54,6 +53,7 @@ const MyCard = (props) => {
   const [userRating, setUserRating] = useState(0);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+
   const { title, author, category, imgSrc, rating, user, id } = props;
 
   useEffect(() => {
@@ -105,7 +105,18 @@ const MyCard = (props) => {
       <Divider variant="middle" />
       <CardActions className={classes.cardButtons}>
         <Button
-          onClick={() => history.push('/books/edit')}
+          onClick={() =>
+            history.push({
+              pathname: `/books/${id}`,
+              state: {
+                idCard: id,
+                titleCard: title,
+                authorCard: author,
+                categoryCard: category,
+                imgSrcCard: imgSrc,
+              },
+            })
+          }
           size="small"
           variant="contained"
           color="primary"

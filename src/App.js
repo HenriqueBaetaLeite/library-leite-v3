@@ -8,6 +8,7 @@ import Books from './pages/Books';
 import PrivateRoute from './components/PrivateRoute';
 import AddBook from './pages/AddBook';
 import About from './pages/About';
+import EditBook from './pages/EditBook';
 import NotFound from './pages/NotFound';
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact={true} path="/books" component={Books} />
         <PrivateRoute exact={true} path="/books/add" component={AddBook} />
+        <PrivateRoute exact={true} path="/books/:id" component={EditBook} />
         <PrivateRoute exact={true} path="/sobre" component={About} />
         <Route component={NotFound} />
       </Switch>

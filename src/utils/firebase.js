@@ -28,6 +28,17 @@ export const addBook = async (bookData) => {
   return book;
 };
 
+export const editBook = async (id, bookData) => {
+  const book = await db.collection('books').doc(id).update({
+    title: bookData.title,
+    author: bookData.author,
+    category: bookData.category,
+    imgURL: bookData.imgURL,
+  });
+
+  return book;
+};
+
 export const getAllBooks = async () => {
   const allBooks = [];
   const documents = [];

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Container, Typography, TextField, Card, Button, Box } from '@material-ui/core';
+
 import TheHeader from '../components/TheHeader';
+import SuccessEdited from '../components/SuccessEdited';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { addBook } from '../utils/firebase';
+import { editBook } from '../utils/firebase';
 
 const useStyles = makeStyles({
   card: {
@@ -14,44 +15,39 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    background: '#f6f6f6',
   },
   inputBox: {
     marginTop: '20px',
     marginBottom: '30px',
+  },
+  inputLabel: {
+    textAlign: 'left',
   },
   button: {
     marginTop: '40px',
   },
 });
 
-const EditBook = () => {
+const EditBook = (props) => {
   const classes = useStyles();
-  const history = useHistory();
 
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [category, setCategory] = useState('');
-  const [imgURL, setImgURL] = useState('');
+  const { titleCard, authorCard, categoryCard, imgSrcCard, idCard } = props.location.state;
+
+  const [title, setTitle] = useState(titleCard);
+  const [author, setAuthor] = useState(authorCard);
+  const [category, setCategory] = useState(categoryCard);
+  const [imgURL, setImgURL] = useState(imgSrcCard);
+  const [successEdited, setSuccessEdited] = useState(false);
 
   const handleSubmit = async (event) => {
-    console.log('clicked');
-    const result = await addBook({
+    await editBook(idCard, {
       title,
       author,
       category,
       imgURL,
-      rating: { henrique: 0, fernando: 0 },
-      readBy: [''],
     });
-
-    if (result) {
-      console.log('yes!!', result);
-      setTitle('');
-      setAuthor('');
-      setCategory('');
-      setImgURL('');
-      history.push('/books');
-    }
+    setSuccessEdited(true);
   };
 
   const handleChange = (event) => {
@@ -71,6 +67,7 @@ const EditBook = () => {
         break;
     }
   };
+
   return (
     <Container maxWidth="xs">
       <TheHeader />
@@ -80,6 +77,7 @@ const EditBook = () => {
 
         <Box className={classes.inputBox}>
           <TextField
+            value={title}
             name="title"
             label="Título"
             variant="outlined"
@@ -92,6 +90,7 @@ const EditBook = () => {
           />
 
           <TextField
+            value={author}
             name="author"
             label="Autor"
             variant="outlined"
@@ -104,7 +103,9 @@ const EditBook = () => {
           <Typography color="textSecondary" variant="caption">
             Mais de 1 autor? Separe por vírgula.
           </Typography>
+
           <TextField
+            value={category}
             name="category"
             label="Categoria"
             variant="outlined"
@@ -114,7 +115,9 @@ const EditBook = () => {
             required
             onChange={handleChange}
           />
+
           <TextField
+            value={imgURL}
             name="imgURL"
             label="Imagem da Capa (URL)"
             variant="outlined"
@@ -131,9 +134,10 @@ const EditBook = () => {
             variant="contained"
             color="primary"
           >
-            Adicionar
+            Editar
           </Button>
         </Box>
+        {successEdited && <SuccessEdited open={successEdited} setOpen={setSuccessEdited} />}
       </Card>
     </Container>
   );
