@@ -169,6 +169,7 @@ const Login = () => {
               />
 
               <Button
+                data-testid="send-button"
                 type="submit"
                 fullWidth
                 variant="contained"
