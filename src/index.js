@@ -58,11 +58,11 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
         <BooksContext>
+      <BrowserRouter>
           <App />
-        </BooksContext>
       </BrowserRouter>
+        </BooksContext>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),

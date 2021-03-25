@@ -10,6 +10,7 @@ import AddBook from './pages/AddBook';
 import About from './pages/About';
 import EditBook from './pages/EditBook';
 import NotFound from './pages/NotFound';
+import Transition from './pages/Transition'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <PrivateRoute exact={true} path="/books/add" component={AddBook} />
         <PrivateRoute exact={true} path="/books/:id" component={EditBook} />
         <PrivateRoute exact={true} path="/sobre" component={About} />
+        <PrivateRoute exact={true} path="/transition" component={Transition} />
         <Route component={NotFound} />
       </Switch>
     </div>

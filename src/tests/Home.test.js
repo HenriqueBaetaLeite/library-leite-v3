@@ -9,6 +9,7 @@ describe('Teste do Componente Home', () => {
     const textBook = getByText(/coletânia de livros/i);
     expect(textBook).toBeInTheDocument();
   });
+
   test('Verificar se carrega a página Home, com a imagem do livro aberto', () => {
     const { getByRole, getByAltText } = render(<Home />);
     // const imgBook = getByRole('img', { alt: 'logo BL' });

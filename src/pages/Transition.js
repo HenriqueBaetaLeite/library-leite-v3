@@ -12,7 +12,7 @@ const Transition = () => {
   const { getMyBooks } = useContext(BooksBL);
 
   useEffect(() => {
-    getAllBooks().then((resp) => getMyBooks(resp));
+    getAllBooks().then(async (resp) => getMyBooks(resp));
     auth.onAuthStateChanged((user) => {
       if (!user) return history.push('/login');
     });

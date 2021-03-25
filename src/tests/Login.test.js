@@ -32,12 +32,28 @@ describe('Teste do Componente Login', () => {
 
   test('Verifica funcionamento dos inputs de email e password, além do funcionamento do botão Entrar.', () => {
     const { getByTestId, getByLabelText } = render(<Login />);
+
+    const mySubmit = jest.fn();
+
     const email = getByLabelText('E-mail');
-    const senha = getByLabelText('Senha');
-    const enterButton = getByTestId('send-button');
+    expect(email).toHaveValue('');
+    
+    const senha = getByLabelText('Senha');    
+    expect(senha).toHaveValue('');
+    
+    
     fireEvent.change(email, { target: { value: EMAIL_USER } });
+    
+    expect(email).toHaveValue(EMAIL_USER)
+    
     fireEvent.change(senha, { target: { value: PASSWORD_USER } });
 
+    expect(senha).toHaveValue(PASSWORD_USER)
+
+    const enterButton = getByTestId('send-button');
+
     fireEvent.click(enterButton);
+    // expect(mySubmit).toBeCalled();
+
   });
 });

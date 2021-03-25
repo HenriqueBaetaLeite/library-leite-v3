@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Copyright from '../components/Copyright';
@@ -77,6 +77,12 @@ const Login = () => {
   const [loginErrorMsg, setLoginErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (localStorage.getItem('userLoggedInBooks')) {
+      history.push('/books');
+    }
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -104,6 +110,7 @@ const Login = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    console.log('opa', value);
     setWrongEmailInput(false);
     setWrongPasswordInput(false);
     setErrorLogin(false);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Typography, Grid, CircularProgress } from '@material-ui/core';
 
@@ -8,20 +8,24 @@ import { auth, getAllBooks } from '../utils/firebase';
 
 import MyCard from '../components/MyCard';
 
+import BooksBL from '../context';
+
 const Books = () => {
   const history = useHistory();
   const [user, setUser] = useState(null);
   const [allBooks, setAllBooks] = useState([]);
 
+  const { books } = useContext(BooksBL);
+
   useEffect(() => {
     getAllBooks().then(async (resp) => setAllBooks(resp));
-
+    
     auth.onAuthStateChanged((user) => {
       if (!user) return history.push('/login');
       setUser(user.email);
     });
   }, [allBooks]);
-
+  
   return (
     <Container>
       <TheHeader />
